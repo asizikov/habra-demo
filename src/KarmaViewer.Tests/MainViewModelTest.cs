@@ -28,17 +28,36 @@ namespace KarmaViewer.Tests
         }
 
         [Test]
-        public void Test()
+        public void KarmaValueSetToPropertyWhenOnNextCalled()
+        {
+            Client.Setup(client => client.GetKarmaForUser(USER_NAME)).Returns(KarmaStream);
+            var viewModel = new MainViewModel(Client.Object, USER_NAME);
+
+            KarmaStream.OnNext(new KarmaModel {Karma = 10});
+            Assert.AreEqual(10, viewModel.Karma);
+        }
+
+        [Test]
+        public void IsLoadingSetToFalseWhenOnCompletedCalled()
         {
             Client.Setup(client => client.GetKarmaForUser(USER_NAME)).Returns(KarmaStream);
             var viewModel = new MainViewModel(Client.Object, USER_NAME);
 
             Assert.IsTrue(viewModel.IsLoading);
-            KarmaStream.OnNext(new KarmaModel {Karma = 10});
-            Assert.IsTrue(viewModel.IsLoading);
-            Assert.AreEqual(10, viewModel.Karma);
             KarmaStream.OnCompleted();
             Assert.IsFalse(viewModel.IsLoading);
+        }
+
+        [Test]
+        public void KarmaValueIsUpdatedWhenSecondOnNextCalled()
+        {
+            Client.Setup(client => client.GetKarmaForUser(USER_NAME)).Returns(KarmaStream);
+            var viewModel = new MainViewModel(Client.Object, USER_NAME);
+
+            KarmaStream.OnNext(new KarmaModel { Karma = 10 });
+            Assert.AreEqual(10, viewModel.Karma);
+            KarmaStream.OnNext(new KarmaModel { Karma = 20 });
+            Assert.AreEqual(20, viewModel.Karma);
         }
     }
 }
