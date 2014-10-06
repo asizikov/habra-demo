@@ -21,7 +21,8 @@ namespace KarmaViewer.Networking
         public IObservable<KarmaModel> GetKarmaForUser(string userName)
         {
             return GetKarmaForUserInt(userName)
-                .WithCache(userName, Cache).DistinctUntilChanged(new KarmaComparer());
+                .WithCache(Cache, userName)
+                .DistinctUntilChanged(new KarmaComparer());
         }
 
         private IObservable<KarmaModel> GetKarmaForUserInt(string userName)
