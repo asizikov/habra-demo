@@ -19,9 +19,7 @@ namespace KarmaViewer.Networking
                 {
                     put(item);
                     observer.OnNext(item);
-
-                    observer.OnCompleted();
-                }, observer.OnError);
+                }, observer.OnError, observer.OnCompleted);
                 return Disposable.Empty;
             });
         }
