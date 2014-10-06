@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using KarmaViewer.Domain;
 
 namespace KarmaViewer.Networking
 {
     public static class CacheExt
     {
-        public static IObservable<KarmaModel> WithCache(this IObservable<KarmaModel> source, Func<KarmaModel> get, Action<KarmaModel> put)
+        public static IObservable<T> WithCache<T>(this IObservable<T> source, Func<T> get, Action<T> put) where T : class
         {
-            return Observable.Create<KarmaModel>(observer =>
+            return Observable.Create<T>(observer =>
             {
                 var cached = get();
                 if (cached != null)
