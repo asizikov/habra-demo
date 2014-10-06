@@ -20,12 +20,12 @@ namespace KarmaViewer.Networking
 
         public IObservable<KarmaModel> GetKarmaForUser(string userName)
         {
-            return GetKarmaForUserInt(userName)
-                .WithCache(Cache, userName)
+            return GetKarma(userName)
+                .WithCache(() => Cache.GetCachedItem(userName), model => Cache.Put(model))
                 .DistinctUntilChanged(new KarmaComparer());
         }
 
-        private IObservable<KarmaModel> GetKarmaForUserInt(string userName)
+        private IObservable<KarmaModel> GetKarma(string userName)
         {
             return Observable.Create<KarmaModel>(observer =>
                 Scheduler.Schedule(async () =>

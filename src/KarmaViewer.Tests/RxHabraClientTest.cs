@@ -72,6 +72,7 @@ namespace KarmaViewer.Tests
         public void IfCacheIsEmptyDownloadsDataAndReturnsIt()
         {
             Cache.Setup(c => c.HasCached(It.IsAny<string>())).Returns(false);
+            Cache.Setup(cache => cache.GetCachedItem(USER_NAME)).Returns((KarmaModel)null);
             HttpClient.Setup(http => http.Get(USER_NAME)).ReturnsAsync(new KarmaResponse
             {
                 Data = Model,
@@ -90,6 +91,7 @@ namespace KarmaViewer.Tests
         public void Test4()
         {
             Cache.Setup(c => c.HasCached(It.IsAny<string>())).Returns(false);
+            Cache.Setup(cache => cache.GetCachedItem(USER_NAME)).Returns((KarmaModel)null);
             var exception = new Exception("something went wrong");
             HttpClient.Setup(http => http.Get(USER_NAME)).ReturnsAsync(new KarmaResponse
             {

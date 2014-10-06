@@ -7,18 +7,18 @@ namespace KarmaViewer.Networking
 {
     public static class CacheExt
     {
-        public static IObservable<KarmaModel> WithCache(this IObservable<KarmaModel> source, ICache cache, string userName)
+        public static IObservable<KarmaModel> WithCache(this IObservable<KarmaModel> source, Func<KarmaModel> get, Action<KarmaModel> put)
         {
             return Observable.Create<KarmaModel>(observer =>
             {
-                if (cache.HasCached(userName))
+                var cached = get();
+                if (cached != null)
                 {
-                    var karma = cache.GetCachedItem(userName);
-                    observer.OnNext(karma);
+                    observer.OnNext(cached);
                 }
                 source.Subscribe(updatedKarma =>
                 {
-                    cache.Put(updatedKarma);
+                    put(updatedKarma);
                     observer.OnNext(updatedKarma);
 
                     observer.OnCompleted();
