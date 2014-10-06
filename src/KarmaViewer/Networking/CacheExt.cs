@@ -15,10 +15,10 @@ namespace KarmaViewer.Networking
                 {
                     observer.OnNext(cached);
                 }
-                source.Subscribe(updatedKarma =>
+                source.Subscribe(item =>
                 {
-                    put(updatedKarma);
-                    observer.OnNext(updatedKarma);
+                    put(item);
+                    observer.OnNext(item);
 
                     observer.OnCompleted();
                 }, observer.OnError);
