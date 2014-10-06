@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\KarmaModel.cs" />
+    <Compile Include="Networking\CacheExt.cs" />
+    <Compile Include="Networking\RxHabraClient.cs" />
+    <Compile Include="Networking\KarmaComparer.cs" />
     <Compile Include="Networking\ReactiveHabraClient.cs" />
     <Compile Include="Networking\ICache.cs" />
     <Compile Include="Networking\IHabraClient.cs" />
